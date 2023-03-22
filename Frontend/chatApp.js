@@ -7,12 +7,17 @@ form.addEventListener('submit',(e)=>{
     e.preventDefault()
     input.value==''?console.log('No Message'):send()
 })
+setTimeout(async()=>{ 
+    await localstore()
+    //location.reload(1); 
+}, 5000);
 window.addEventListener('DOMContentLoaded',get)
 async function get(){
     try{
+        console.log('hello')
         let promise=await axios.get('http://localhost:3000/chat/users')
         for(let i=0;i<promise.data.length;i++){
-            ul.innerHTML+=`<li class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:white">${promise.data[i].name} joined</li>`
+            ul.innerHTML+=`<li class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:#00FD7A">${promise.data[i].name} joined</li>`
         }
         displaymsg()
     }
@@ -24,22 +29,34 @@ async function get(){
 async function send(){
     try{
         let data =input.value
+        input.value=' '
         let token=localStorage.getItem('token')
-        let promise=await axios.post(`http://localhost:3000/chat/send/`,{data},{headers:{Authorization:token}})
-        displaymsg()
+        await axios.post(`http://localhost:3000/chat/send/`,{data},{headers:{Authorization:token}})
+        let promise=await axios.get('http://localhost:3000/chat/lmsg')
+        ul.innerHTML+=`<li class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:white">${promise.data.user.name} : ${promise.data.msg}</li>`
     }
     catch(error){
         console.log(error)
     }
 }
+async function localstore(){
+    let promise=await axios.get('http://localhost:3000/chat/msg') 
+    localStorage.setItem('data',JSON.stringify(promise))
+}
 async function displaymsg(){
     try{
-        let promise=await axios.get('http://localhost:3000/chat/msg') 
-        console.log(promise)
-        for(let i=0;i<promise.data.length;i++){
+        if(localStorage.getItem('data')){
+            let promise=localStorage.getItem('data')
+            promise=JSON.parse(promise)
+            for(let i=0;i<promise.data.length;i++){
             ul.innerHTML+=`<li class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:white">${promise.data[i].user.name} : ${promise.data[i].msg}</li>`
             console.log(promise.data[1].msg)
         }
+        }
+       else{
+        await localstore()
+        displaymsg()
+       }
     }
     catch(error){
         console.log(error)

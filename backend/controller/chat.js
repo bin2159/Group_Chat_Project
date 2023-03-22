@@ -28,7 +28,6 @@ const msg=async(req,res,next)=>{
             attributes:['msg'],
             include:{model:User,attributes:['name']}
         })
-        console.log(msgs)
         res.status(200).json(msgs)
     }
     catch(error){
@@ -36,4 +35,18 @@ const msg=async(req,res,next)=>{
         res.status(500).json({message:error})
     }
 }
-module.exports={user,send,msg}
+const lmsg=async(req,res,next)=>{
+    try{
+        let lmsg=await Msg.findAll({
+            attributes:['msg'],
+            include:{model:User,attributes:['name']}
+        })
+        console.log(lmsg[lmsg.length-1])
+        res.status(200).json(lmsg[lmsg.length-1])
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+module.exports={user,send,msg,lmsg}

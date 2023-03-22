@@ -5,7 +5,6 @@
 body{
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: purple;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content:center ;
@@ -13,13 +12,19 @@ body{
 .container{
     align-items:center;
     justify-content: center;
+    width: 600px;
+    padding-bottom: 90px;
+    padding-top: 40px;
 }
 .box{
     background-color: blueviolet;
     border-color: blue;
-    height:1000vh;
     border-radius: 20px;
 }
+ul{
+    padding-top: 10px;
+}
+
 
 
 
