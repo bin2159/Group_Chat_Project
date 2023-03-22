@@ -22,4 +22,18 @@ const send=async(req,res,next)=>{
         res.status(500).json({message:error})
     }
 }
-module.exports={user,send}
+const msg=async(req,res,next)=>{
+    try{
+        let msgs=await Msg.findAll({
+            attributes:['msg'],
+            include:{model:User,attributes:['name']}
+        })
+        console.log(msgs)
+        res.status(200).json(msgs)
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+module.exports={user,send,msg}

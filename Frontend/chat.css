@@ -3,6 +3,7 @@
     box-sizing: border-box;
 }
 body{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     background-color: purple;
     height: 100vh;
     display: flex;
@@ -16,7 +17,7 @@ body{
 .box{
     background-color: blueviolet;
     border-color: blue;
-    height:100vh;
+    height:1000vh;
     border-radius: 20px;
 }
 
