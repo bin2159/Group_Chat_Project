@@ -26,7 +26,7 @@ async function store(e){
             tag.innerText=promise.data.message 
             localStorage.setItem('token',promise.data.token)
             setTimeout(()=>{
-                window.location.assign('./login.html')
+                window.location.assign('./chatApp.html')
             },1000)
         }
         
