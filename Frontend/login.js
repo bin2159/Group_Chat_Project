@@ -25,6 +25,7 @@ async function store(e){
             tag.style.color='green'
             tag.innerText=promise.data.message 
             localStorage.setItem('token',promise.data.token)
+            localStorage.setItem('groupid',0)
             setTimeout(()=>{
                 window.location.assign('./chatApp.html')
             },1000)

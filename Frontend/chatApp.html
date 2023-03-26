@@ -17,30 +17,51 @@
 </head>
 
 <body>
+    <div class="fixed">
+        
+    </div>
+    <div class="fixed-top">
+        <h1 class="text-center text-bg-primary ">Welcome To Group Chat!</h1>
+        <input type="button" class="btn btn-danger" value="Log Out" id="logout">
+    </div>
+    <form>
+        <div class="fixed-bottom">
+            <div class="form-floating input-group input-group-lg mb-3">
+                <input type="text" class="form-control form-control-lg" placeholder="Send" id="msg">
+                <label for="msg" class="form-label">Send</label>
+                <input id="send" class="btn btn-primary" type="submit" value="Send">
+            </div>
+        </div>
+    </form>
+
     <div class="container">
-        <div class="row">
+        <div class="row gx-3">
             <div class="col">
                 <div>
-                    <ul class="list-group list-group-flush">
+                    <h3 class="text-center text-bg-light">Members</h3>
+                    <ul class="list-group list-group-flush" id="list-users">
                     </ul>
                 </div>
-                <form>
-                    <div class="fixed-bottom">
-                        <div class="form-floating input-group input-group-lg mb-3">
-                            <input type="text" class="form-control form-control-lg" placeholder="Send" id="msg">
-                            <label for="msg" class="form-label">Send</label>
-                            <input class="btn btn-primary" type="submit" value="Send">
-                        </div>
-                    </div>
-                </form>
-                <div class="fixed-top">
-                    <h1 class="text-center text-bg-primary ">Welcome To Group Chat!</h1>">
-                    <input type="button" class="btn btn-primary" value="Log Out" id="logout">
+            </div>
+            <div class="col col-7 ">
+                <div>
+                    <h3 class="text-center text-bg-light">Messages</h3>
+                    <ul class="list-group list-group-flush" id="list-msg">
+                    </ul>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <h3 class="text-center text-bg-light">Groups</h3> 
+                    <li class="list-group-item text-center" id="grp-global" style="background-color:blueviolet;border-radius:12px;color:white">Global</li>                  
+                    <input type="button" class="btn btn-warning" value="Create Group" id="group">
+                    <ul class="list-group list-group-flush" id="list-grp"> 
+                       
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-
 </body>
 
 </html>
