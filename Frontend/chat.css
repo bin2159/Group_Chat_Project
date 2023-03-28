@@ -33,4 +33,7 @@ div.fixed {
 h3{
     border-radius: 12px;
 }
+.form-control {
+    display: inline-block;
+}
 
