@@ -15,13 +15,17 @@ const User_Group=require('./model/usergroup')
 const app=express()
 
 app.use(cors({
-    origin:"http://127.0.0.1:5501"
+    origin:"http://127.0.0.1:5500"
 }))
 app.use(bodyParser.json({extended:false}))
 
 app.use('/user',user)
 app.use('/chat',chat)
 app.use('/group',group)
+
+app.use((req,res,next)=>{
+    res.sendFile(path.join(__dirname,`../Frontend/${req.url}`))
+})
 
 User.hasMany(Msg)
 Msg.belongsTo(User)

@@ -13,7 +13,7 @@ async function store(e){
         password:password
     }
     try{
-        let promise=await axios.post('http://localhost:3000/user/signup',data)
+        let promise=await axios.post('http://52.201.153.124:3000/user/signup',data)
         console.log(promise)
         if(promise.status==207){
             let label=document.getElementById('lemail')

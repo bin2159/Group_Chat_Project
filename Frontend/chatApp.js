@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded',udisplay)
 async function udisplay(){
     try{
         let token=localStorage.getItem('token')
-        let promise=await axios.get('http://localhost:3000/chat/users',{headers:{Authorization:token}})
+        let promise=await axios.get('http://52.201.153.124:3000/chat/users',{headers:{Authorization:token}})
         ulm.innerHTML=''
         for(let i=0;i<promise.data.length;i++){
             ulm.innerHTML+=`<li id="${promise.data[i].id}" class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:#00FD7A">${promise.data[i].name} joined</li>`
@@ -58,11 +58,11 @@ async function send(groupid,msg,file){
         input.value=' '
         let token=localStorage.getItem('token')
         if(file){
-            await axios.post(`http://localhost:3000/chat/upload/?gpid=${groupid}`,file,{headers:{Authorization:token,"Content-Type": "multipart/form-data"}})
+            await axios.post(`http://52.201.153.124:3000/chat/upload/?gpid=${groupid}`,file,{headers:{Authorization:token,"Content-Type": "multipart/form-data"}})
             document.getElementById("fileupload").value =""
         }
         if(data.msg!==''){
-            await axios.post(`http://localhost:3000/chat/send/`,{data},{headers:{Authorization:token}})
+            await axios.post(`http://52.201.153.124:3000/chat/send/`,{data},{headers:{Authorization:token}})
         }
         localstore(groupid)
     }
@@ -77,7 +77,7 @@ async function localstore(groupid){
             let local=localStorage.getItem('data')
             local=JSON.parse(local)
             let msgid=local[local.length-1].id
-            let promise1=await axios.get(`http://localhost:3000/chat/lastmsgs/?msgid=${msgid}&groupid=${groupid}`)
+            let promise1=await axios.get(`http://52.201.153.124:3000/chat/lastmsgs/?msgid=${msgid}&groupid=${groupid}`)
             let obj=[]
             obj.push(local)
             for(let i=0;i<promise1.data.length;i++){
@@ -93,7 +93,7 @@ async function localstore(groupid){
             displaymsg()
         }
         else{
-            let promise=await axios.get(`http://localhost:3000/chat/msg/?groupid=${groupid}`) 
+            let promise=await axios.get(`http://52.201.153.124:3000/chat/msg/?groupid=${groupid}`) 
             localStorage.setItem('data',JSON.stringify(promise.data))
             displaymsg()
         }
@@ -129,9 +129,9 @@ function logout(){
 async function create(){
     try{
         let token=localStorage.getItem('token')
-        let promise=await axios.get('http://localhost:3000/chat/users',{headers:{Authorization:token}})
-        let promise1=await axios.get(`http://localhost:3000/group/nusers/${gpid}`,{headers:{Authorization:token}})
-        let promise2=await axios.get(`http://localhost:3000/group/users/${gpid}`,{headers:{Authorization:token}})
+        let promise=await axios.get('http://52.201.153.124:3000/chat/users',{headers:{Authorization:token}})
+        let promise1=await axios.get(`http://52.201.153.124:3000/group/nusers/${gpid}`,{headers:{Authorization:token}})
+        let promise2=await axios.get(`http://52.201.153.124:3000/group/users/${gpid}`,{headers:{Authorization:token}})
         ulm.innerHTML=""
         let div=document.createElement('div')
         let div1=document.createElement('div')
@@ -174,7 +174,7 @@ async function create(){
                 document.querySelector('.change-btn').addEventListener('click',async()=>{
                     let name=document.getElementById('grpname').value||'GROUP'
                     let uid=0
-                    let promise=await axios.get(`http://localhost:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=grp&name=${name}`,{headers:{Authorization:token}})
+                    let promise=await axios.get(`http://52.201.153.124:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=grp&name=${name}`,{headers:{Authorization:token}})
                     location.reload()
                 })
             }
@@ -185,9 +185,9 @@ async function create(){
             let li=document.getElementsByName('list-gmem')
             let data=search.value
             div1.innerHTML=''
-            let promise=await axios.get(`http://localhost:3000/chat/users1/?data=${data}`,{headers:{Authorization:token}})
-            let promise1=await axios.get(`http://localhost:3000/group/nusers1/?data=${data}&gpid=${gpid}`,{headers:{Authorization:token}})
-            let promise2=await axios.get(`http://localhost:3000/group/users1/?data=${data}&gpid=${gpid}`,{headers:{Authorization:token}})
+            let promise=await axios.get(`http://52.201.153.124:3000/chat/users1/?data=${data}`,{headers:{Authorization:token}})
+            let promise1=await axios.get(`http://52.201.153.124:3000/group/nusers1/?data=${data}&gpid=${gpid}`,{headers:{Authorization:token}})
+            let promise2=await axios.get(`http://52.201.153.124:3000/group/users1/?data=${data}&gpid=${gpid}`,{headers:{Authorization:token}})
             console.log('promise',promise) 
             console.log('promise1',promise1)
             memberslist(promise,promise1,promise2)
@@ -201,18 +201,18 @@ async function create(){
 
                 if(e.target.name=="delete-btn"){
                     console.log('......')
-                    let promise=await axios.get(`http://localhost:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=d`,{headers:{Authorization:token}})
+                    let promise=await axios.get(`http://52.201.153.124:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=d`,{headers:{Authorization:token}})
                     flag=true
                     create()
                 }
                 if(e.target.name=="add-btn"){
-                    let promise=await axios.get(`http://localhost:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=a`,{headers:{Authorization:token}})
+                    let promise=await axios.get(`http://52.201.153.124:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=a`,{headers:{Authorization:token}})
                     flag=true
                     create()
                 }
                 if(e.target.name=='admin'){
                     console.log('hai')
-                    let promise=await axios.get(`http://localhost:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=admin`,{headers:{Authorization:token}})
+                    let promise=await axios.get(`http://52.201.153.124:3000/group/editU/?gpid=${gpid}&uid=${uid}&edit=admin`,{headers:{Authorization:token}})
                     location.reload()
                 }
             })
@@ -235,11 +235,11 @@ async function checkclick(e){
         }console.log(email)
         if(!flag){
             console.log(email)
-        let promise=await axios.post(`http://localhost:3000/group/create`,{email,name},{headers:{Authorization:token}})
+        let promise=await axios.post(`http://52.201.153.124:3000/group/create`,{email,name},{headers:{Authorization:token}})
         console.log(promise)
         }
         // else{
-        //     let promise=await axios.patch(`http://localhost:3000/group/edit/${gpid}`,{email,name},{headers:{Authorization:token}})
+        //     let promise=await axios.patch(`http://52.201.153.124:3000/group/edit/${gpid}`,{email,name},{headers:{Authorization:token}})
         //     console.log('>>>>>>>>>',promise)
         // }
         flag=false
@@ -253,7 +253,7 @@ async function checkclick(e){
 window.addEventListener('DOMContentLoaded',gdisplay)
 async function gdisplay(){
     try{
-        let promise=await axios.get(`http://localhost:3000/group/show`,{headers:{Authorization:token}})
+        let promise=await axios.get(`http://52.201.153.124:3000/group/show`,{headers:{Authorization:token}})
         for(let i=0;i<promise.data.admingroup.length;i++){
             ulg.innerHTML+=`<button style="border-radius:100px"><li id=${promise.data.admingroup[i].id} name='grp-list' class="list-group-item" style="background-color:blueviolet;border-radius:100px; color:white">${promise.data.admingroup[i].name}<input type="button" class="btn btn-primary" style="border-radius:100px" value="Edit"><input type="button" class="btn btn-danger" style="border-radius:100px" value="Delete"></li></button>`
         }
@@ -280,12 +280,12 @@ async function getGroupMsg(e){
         }
         else if(e.target.value=='Delete'){
             let grpid=e.target.parentElement.id
-            let promise=await axios.get(`http://localhost:3000/group/delete/?grpid=${grpid}`,{headers:{Authorization:token}})
+            let promise=await axios.get(`http://52.201.153.124:3000/group/delete/?grpid=${grpid}`,{headers:{Authorization:token}})
             location.reload(1)
         }
         else if(e.target.value=='Remove'){
             let grpid=e.target.parentElement.id
-            let promise=await axios.get(`http://localhost:3000/group/remove/?grpid=${grpid}`,{headers:{Authorization:token}})
+            let promise=await axios.get(`http://52.201.153.124:3000/group/remove/?grpid=${grpid}`,{headers:{Authorization:token}})
             location.reload(1)
         }
         else{
@@ -304,7 +304,7 @@ async function gmdisplay(id){
     try{
         let grpid=id
         let token=localStorage.getItem('token')
-        let promise=await axios.get(`http://localhost:3000/group/users/${grpid}`,{headers:{Authorization:token}})
+        let promise=await axios.get(`http://52.201.153.124:3000/group/users/${grpid}`,{headers:{Authorization:token}})
         ulm.innerHTML=''
         for(let i=0;i<promise.data.length;i++){
             ulm.innerHTML+=`<li id="${promise.data[i].id}" class="list-group-item" style="background-color:blueviolet;border-radius:12px; color:#00FD7A">${promise.data[i].name}</li>`
