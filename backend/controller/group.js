@@ -219,4 +219,51 @@ const remove=async(req,res,next)=>{
         res.status(500).json({message:error})
     }
 }
-module.exports={create,show,edit,users,nusers,addU,deleteg,remove}
+const nusers1=async(req,res,next)=>{
+    try{
+        let grpid=req.query.gpid
+        let data=req.query.data
+        let userid=req.user.id
+        let users=await User_Group.findAll(
+            {attributes:['userId'],
+            where:{groupId:grpid}}
+        )
+        let uid=[]
+        for(let i=0;i<users.length;i++){
+           uid.push(users[i].userId) 
+        }
+        let user=await User.findAll({
+            where:{[Op.and]:[{id:{[Op.notIn]:uid}},{id:{[Op.ne]:userid}},{name:{[Op.like]:`%${data}%`}}]}
+        })
+        res.status(200).json(user)
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+const users1=async(req,res,next)=>{
+    try{
+        let grpid=req.query.gpid
+        let data=req.query.data
+        console.log(grpid)
+        let userid=req.user.id
+        let users=await User_Group.findAll(
+            {attributes:['userId'],
+            where:{groupId:grpid}}
+        )
+        let uid=[]
+        for(let i=0;i<users.length;i++){
+           uid.push(users[i].userId) 
+        }
+        let user=await User.findAll({
+            where:{[Op.and]:[{id:{[Op.in]:uid}},{id:{[Op.ne]:userid}},{name:{[Op.like]:`%${data}%`}}]}
+        })
+        res.status(200).json(user)
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+module.exports={create,show,edit,users,nusers,addU,deleteg,remove,nusers1,users1}

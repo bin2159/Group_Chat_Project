@@ -1,6 +1,7 @@
 const User=require('../model/user')
 const Msg=require('../model/msg')
 const {Op}=require('sequelize')
+const S3service=require('../service/awss3')
 const user=async(req,res,next)=>{
     try{
         let userId=req.user.id
@@ -34,7 +35,6 @@ const msg=async(req,res,next)=>{
     try{
         let groupid=req.query.groupid
         if(groupid==0){
-            console.log('hai')
             groupid=null
         }
         let msg1=await Msg.findAll({
@@ -92,7 +92,39 @@ const suser=async(req,res,next)=>{
     })
     res.status(200).json(user)
 }
-module.exports={user,send,msg,lastmsgs,suser}
+const upload=async(req,res,next)=>{
+    try{
+        let userId=req.user.id
+        let groupid=req.query.gpid
+        if(groupid==0){
+            groupid=null
+        }
+        const file =req.files.file
+        const filename=`${userId}/${new Date()}${file.name}`
+        const fileUrl=await S3service.uploadToS3(file,filename)
+        await Msg.create({msg:fileUrl,userId:userId,groupId:groupid})
+        res.status(200).json({success:true,message:'Message Send'})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+const user1=async(req,res,next)=>{
+    try{
+        let data=req.query.data
+        let userId=req.user.id
+        let users=await User.findAll({
+            where:{id:{[Op.not]:userId},name:{[Op.like]: `%${data}%`}}
+        })
+        res.status(200).json(users)
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message:error})
+    }
+}
+module.exports={user,send,msg,lastmsgs,suser,upload,user1}
 // ,
 //             email:{[Op.ilike]:'%'+data+'%'},
 //             phone:{[Op.ilike]:'%'+data+'%'}
